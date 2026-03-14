@@ -13,7 +13,52 @@ Key features include:
 - **Citations**: The bot provides page-level citations for every answer, ensuring traceability and trust.
 - **Conversational UI**: A sleek, user-friendly interface built with [Gradio ChatInterface](https://www.gradio.app/).
 
-## 📁 Project Structure
+## � Architecture & Design
+
+### High-Level Design (HLD)
+
+The chatbot is built using a classic Retrieval-Augmented Generation (RAG) architecture. It connects a user-friendly frontend to an LLM, heavily grounded by a local vector database to prevent hallucinations and enforce policy-based answers.
+
+```mermaid
+graph TD
+    User([User]) -->|Asks Question| UI[Gradio Chat Interface]
+    UI -->|Passes Query| RAG[RAG Chain / Application Logic]
+    
+    subgraph Retrieval System
+    RAG -->|Trigger Search| Retriever[FAISS Retriever]
+    Retriever -->|Embeds Query| Embedder[HuggingFace bge-small-en]
+    Embedder --> VectorDB[(FAISS Vector DB)]
+    VectorDB -.->|Returns Top-K Chunks| Retriever
+    end
+    
+    Retriever -->|Provides Context| RAG
+    RAG -->|Context + Query| LLM[OpenAI GPT-4o-mini]
+    LLM -.->|Generates Strict Answer| RAG
+    RAG -->|Appends Citations| UI
+    UI -.->|Displays Answer| User
+```
+
+### Low-Level Design (LLD)
+
+The internal processes are divided into **Data Ingestion** and **Retrieval & Generation**.
+
+**Data Ingestion Pipeline:**
+```mermaid
+flowchart LR
+    PDF[UHC Policy PDFs] --> Loader[PyPDFLoader<br/>extracts text + metadata]
+    Loader --> Chunker[RecursiveCharacterTextSplitter<br/>chunk_size: 1200, overlap: 200]
+    Chunker --> Embedder[HuggingFaceEmbeddings<br/>model: BAAI/bge-small-en-v1.5]
+    Embedder --> FAISS[(Local FAISS Index)]
+```
+
+**Retrieval & Generation Flow Details:**
+1. **Query Processing**: The user's query may be pre-processed to represent a suitable search string.
+2. **Search Strategy**: The FAISS Retriever uses **Maximal Marginal Relevance (MMR)** (`fetch_k=20`, `k=6`) to ensure that the retrieved context is both highly relevant and diverse, reducing redundant information.
+3. **Context Formatting**: Pulled chunks are concatenated with their source policy name and page numbers, capped at 12,000 characters to fit within the LLM context window efficiently.
+4. **Constrained Generation**: ChatGPT (gpt-4o-mini, temperature=0) is prompted precisely to only use the provided context. If the answer is missing, it returns a standard fallback response.
+5. **Citation Injection**: Source metadata from the retrieved chunks is appended as a formatted citation list at the end of the final response.
+
+## �📁 Project Structure
 
 ```bash
 📦 chatbot
