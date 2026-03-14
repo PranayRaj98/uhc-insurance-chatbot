@@ -12,12 +12,11 @@ if PROJECT_ROOT not in sys.path:
 from retrieval.vectorstore import retrieve_documents
 from retrieval.vectorstore import get_retriever
 
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+load_dotenv()
 
 llm = ChatOpenAI(
     model="gpt-4o-mini",
-    temperature=0,
-    api_key = OPENAI_API_KEY
+    temperature=0
 )
 
 
