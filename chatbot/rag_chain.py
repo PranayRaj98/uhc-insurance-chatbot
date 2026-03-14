@@ -3,7 +3,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from dotenv import load_dotenv
 import os
 import sys
-
+import streamlit as st
 # Ensure project root (parent of this file's directory) is on sys.path
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if PROJECT_ROOT not in sys.path:
@@ -12,11 +12,12 @@ if PROJECT_ROOT not in sys.path:
 from retrieval.vectorstore import retrieve_documents
 from retrieval.vectorstore import get_retriever
 
-load_dotenv()
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
 llm = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0,
+    api_key = OPENAI_API_KEY
 )
 
 
