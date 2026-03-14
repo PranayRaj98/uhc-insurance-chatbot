@@ -11,7 +11,7 @@ VECTOR_DB_PATH = "vectorstore"
 def load_vector_store():
   embeddings = HuggingFaceEmbeddings(
     model_name = "BAAI/bge-small-en-v1.5",
-    model_kwargs = {"device": "cuda"},
+    model_kwargs = {"device": "cpu"},
     encode_kwargs = {"normalize_embeddings": True}
   )
   

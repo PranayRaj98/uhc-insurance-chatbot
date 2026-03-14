@@ -38,7 +38,7 @@ def create_vector_score():
     # embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
     embeddings = HuggingFaceEmbeddings(
         model_name="BAAI/bge-small-en-v1.5",
-        model_kwargs={"device": "cuda"},
+        model_kwargs={"device": "cpu"},
         encode_kwargs={"normalize_embeddings": True, "batch_size": 128},
     )
 
