@@ -7,16 +7,18 @@ import os
 import time
 import pickle
 
-from ingestion.chunker import CHUNK_FILE
+
 
 try:
     # When used as part of the `ingestion` package
     from ingestion.loader import load_uhc_policies
     from ingestion.chunker import chunk_documents
+    from ingestion.chunker import CHUNK_FILE
 except ImportError:
     # When running this file directly: `python ingestion/embedder.py`
     from loader import load_uhc_policies
     from chunker import chunk_documents
+    from chunker import CHUNK_FILE
 
 load_dotenv()
 
@@ -31,14 +33,16 @@ def create_vector_score():
     print(f"Loaded {len(chunks)} chunks")
 
     print(f"Total chunks to embed (approximate size of index): {len(chunks)}")
-    print("Creating embeddings model on CPU")
+    print("Creating embeddings model on GPU")
+    
+    # embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
     embeddings = HuggingFaceEmbeddings(
-        model_name="BAAI/bge-large-en",
+        model_name="BAAI/bge-small-en-v1.5",
         model_kwargs={"device": "cuda"},
-        encode_kwargs={"normalize_embeddings": True, "batch_size": 64},
+        encode_kwargs={"normalize_embeddings": True, "batch_size": 128},
     )
 
-    print("Building FAISS vector store (this may take several minutes)...")
+    print("Building FAISS vector store")
     start = time.perf_counter()
     vector_store = FAISS.from_documents(
         chunks,

@@ -21,8 +21,8 @@ def chunk_documents(documents):
         docs_by_source.setdefault(source, []).append(doc)
 
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=700,
-        chunk_overlap=150,
+        chunk_size=1200,
+        chunk_overlap=200,
         length_function=len,
         separators=[
             "\n\n",
@@ -59,6 +59,8 @@ if __name__ == "__main__":
     
     with open(CHUNK_FILE, "wb") as f:
       pickle.dump(chunks, f)
+      
+    print("Chunks saved to pkl file")
 
     print("\nExample chunk: \n")
     print(chunks[0].page_content[:500])
