@@ -1,4 +1,6 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+import os
+import pickle
 
 try:
     from ingestion.loader import load_uhc_policies
@@ -6,6 +8,7 @@ except ImportError:
     from loader import load_uhc_policies
 
 
+CHUNK_FILE = "storage/chunks.pkl"
 
 def chunk_documents(documents):
     total_docs = len(documents)
@@ -51,6 +54,11 @@ if __name__ == "__main__":
     docs = load_uhc_policies()
 
     chunks = chunk_documents(docs)
+    
+    os.makedirs("storage", exist_ok = True)
+    
+    with open(CHUNK_FILE, "wb") as f:
+      pickle.dump(chunks, f)
 
     print("\nExample chunk: \n")
     print(chunks[0].page_content[:500])
