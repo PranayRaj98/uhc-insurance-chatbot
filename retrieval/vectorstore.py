@@ -1,3 +1,5 @@
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_core.tools import retriever
@@ -5,13 +7,16 @@ from langchain_openai import OpenAIEmbeddings
 import pickle
 
 from openai.types import vector_store
+import torch
+
+device = "cpu"
 
 VECTOR_DB_PATH = "vectorstore"
 
 def load_vector_store():
   embeddings = HuggingFaceEmbeddings(
     model_name = "BAAI/bge-small-en-v1.5",
-    model_kwargs = {"device": "cpu"},
+    model_kwargs = {"device": device},
     encode_kwargs = {"normalize_embeddings": True}
   )
   
