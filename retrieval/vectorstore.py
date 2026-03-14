@@ -8,11 +8,14 @@ import pickle
 
 from openai.types import vector_store
 import torch
-
+import streamlit as st
 device = "cpu"
+
+
 
 VECTOR_DB_PATH = "vectorstore"
 
+@st.cache_resource
 def load_vector_store():
   embeddings = HuggingFaceEmbeddings(
     model_name = "BAAI/bge-small-en-v1.5",

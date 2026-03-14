@@ -6,8 +6,10 @@ from tqdm import tqdm
 import os
 import time
 import pickle
-
-
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
+import torch
+device = "cpu"
 
 try:
     # When used as part of the `ingestion` package
