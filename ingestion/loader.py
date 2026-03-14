@@ -12,7 +12,7 @@ def load_uhc_policies(data_path: str = "./data/uhc_policies"):
     loaded_pdfs = 0
 
     for pdf in pdf_files:
-        # print(f"Loading PDF {loaded_pdfs + 1}/{total_pdfs}: {pdf.name}")
+        print(f"Loading PDF {loaded_pdfs + 1}/{total_pdfs}: {pdf.name}")
         loader = PyPDFLoader(str(pdf))
         docs = loader.load()
 
