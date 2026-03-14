@@ -3,9 +3,8 @@ from bs4 import BeautifulSoup
 import os
 from tqdm import tqdm
 
-# Updated to current working URL (without `www` and with correct path)
 BASE_URL = "https://uhcprovider.com/en/policies-protocols/commercial-policies/commercial-medical-drug-policies.html"
-# Save PDFs inside this project under ./data/uhc_policies
+
 DOWNLOAD_DIR = "./data/uhc_policies"
 
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
@@ -28,7 +27,6 @@ pdf_links = []
 for idx, link in enumerate(all_links):
     href = link["href"]
 
-    # Debug: show a sample of hrefs being processed
     if idx < 20:
         print(f"[DEBUG] Link {idx} raw href: {href}")
 
