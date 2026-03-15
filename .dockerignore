@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.git/
+.gitignore
+required_modules.txt
+error_log.txt
+error_log_utf8.txt
+data/uhc_policies/
+# If you don't want to upload the FAISS index to the container and want to build it on the fly, 
+# uncomment the line below. Otherwise, keep it commented so the index is deployed with the app.
+# vectorstore/
