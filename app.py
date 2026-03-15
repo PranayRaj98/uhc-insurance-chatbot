@@ -10,5 +10,5 @@ demo = gr.ChatInterface(
     title="UHC Insurance Policy Chatbot",
     description="Ask questions about UnitedHealthcare policies"
 )
-port = int(os.environ.get("PORT", 7860))
+port = int(os.environ.get("PORT", 8862))
 demo.launch(server_name="0.0.0.0", server_port=port)

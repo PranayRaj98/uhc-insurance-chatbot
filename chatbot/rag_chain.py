@@ -55,7 +55,7 @@ def ask_question(question):
 
     retriever = load_retriever()
 
-    docs = retriever.get_relevant_documents(question)
+    docs = retriever.invoke(question)
 
     context, citations = format_context(docs)
 
