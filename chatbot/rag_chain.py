@@ -8,7 +8,7 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from retrieval.vectorstore import get_retriever
+from retrieval.vectorstore import initialize_vector_store
 
 load_dotenv()
 
@@ -25,7 +25,7 @@ retriever = None
 def load_retriever():
     global retriever
     if retriever is None:
-        retriever = get_retriever()
+        retriever = initialize_vector_store()
     return retriever
 
 
