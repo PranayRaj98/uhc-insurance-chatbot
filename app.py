@@ -1,4 +1,5 @@
 import gradio as gr
+import os
 from chatbot.rag_chain import ask_question
 
 def chat(message, history):
@@ -9,5 +10,5 @@ demo = gr.ChatInterface(
     title="UHC Insurance Policy Chatbot",
     description="Ask questions about UnitedHealthcare policies"
 )
-
-demo.launch(server_name="0.0.0.0", server_port=7860)
+port = int(os.environ.get("PORT", 7860))
+demo.launch(server_name="0.0.0.0", server_port=port)
