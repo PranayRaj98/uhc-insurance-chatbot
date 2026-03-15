@@ -3,7 +3,6 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from dotenv import load_dotenv
 import os
 import sys
-import streamlit as st
 # Ensure project root (parent of this file's directory) is on sys.path
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if PROJECT_ROOT not in sys.path:
